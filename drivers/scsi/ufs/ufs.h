@@ -39,6 +39,7 @@
 #define UFS_MAX_LUNS		(SCSI_W_LUN_BASE + UFS_UPIU_MAX_UNIT_NUM_ID)
 #define UFS_UPIU_WLUN_ID	(1 << 7)
 #define UFS_RPMB_UNIT		0xC4
+#define UFS_UPIU_MAX_GENERAL_LUN	8
 
 /* WriteBooster buffer is available only for the logical unit from 0 to 7 */
 #define UFS_UPIU_MAX_WB_LUN_ID	8
@@ -159,6 +160,13 @@ enum attr_idn {
 	QUERY_ATTR_IDN_AVAIL_WB_BUFF_SIZE       = 0x1D,
 	QUERY_ATTR_IDN_WB_BUFF_LIFE_TIME_EST    = 0x1E,
 	QUERY_ATTR_IDN_CURR_WB_BUFF_SIZE        = 0x1F,
+#if defined(CONFIG_UFSHID)
+	QUERY_ATTR_IDN_HID_OPERATION            = 0x20,
+	QUERY_ATTR_IDN_HID_FRAG_LEVEL           = 0x21,
+#endif
+#if defined(CONFIG_UFSFEATURE)
+	QUERY_ATTR_IDN_SUP_VENDOR_OPTIONS       = 0xFF,
+#endif
 };
 
 /* Descriptor idn for Query requests */
@@ -249,6 +257,12 @@ enum device_desc_param {
 	DEVICE_DESC_PARAM_WB_PRESRV_USRSPC_EN	= 0x53,
 	DEVICE_DESC_PARAM_WB_TYPE		= 0x54,
 	DEVICE_DESC_PARAM_WB_SHARED_ALLOC_UNITS = 0x55,
+#if defined(CONFIG_UFSFEATURE)
+	DEVICE_DESC_PARAM_EX_FEAT_SUP		= 0x4F,
+#endif
+#if defined(CONFIG_UFSHID)
+	DEVICE_DESC_PARAM_HID_VER		= 0x59,
+#endif
 };
 
 /* Interconnect descriptor parameters offsets in bytes*/
